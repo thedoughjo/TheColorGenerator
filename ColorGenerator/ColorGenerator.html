@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Color Generator</title>
+        <link rel="stylesheet" href="./ColorGenerator.css"/>
+        
+    </head>
+    <body>
+        <h1>Color Generator</h1>
+                <!-- Option Selector -->
+        <div class="option-container">
+            <label for="color-method">How would you like to get one or more colors?</label>
+            <select id="color-method">
+            <option value="hexcode">By Hexcode Value</option>
+            <option value="picker">By A Custom Color Picker</option>
+            <option value="random">By A Random Color Generator</option>
+            </select>
+        </div>
+
+        <div id="picker-container" class="option-container" style="display: none;">
+            <label for="color-picker">Pick a color:</label>
+            <input type="color" id="color-picker">
+            <button id="use-color-picker-button"></button>
+        </div>
+        <div id="hexcode-container" class="option-container" style="display: none;">
+            <input id="mode" placeholder="Please enter a hexcode value"/>
+            <button id="display-hexcode-color-button">Display Hexcode Color</button>
+        </div>
+        <div id="random-container" class="option-container" style="display: none;">
+            <input id="random-container-num-of-colors" placeholder="Enter the number of random colors that you want to generate"/>
+            <button id="generate-random-color-button">Generate One Random Color</button>
+        </div>
+        <div id="color-display">
+            
+        </div>
+        <script>
+            function updateColorUsingPicker() {
+                let colorDisplay=document.getElementById('color-display');
+                colorDisplay.innerHTML='';
+                const pickedColor= document.getElementById('color-picker').value;
+                var box=document.createElement('div');
+                box.className='rainbow-border-box';
+                box.style.backgroundColor=pickedColor;
+                colorDisplay.appendChild(box);
+                //const box=document.getElementById('rainbow-border-box')
+                //box.style.backgroundColor=pickedColor;
+            }
+            function getRandomColorHEX() {
+                let num=document.getElementById('random-container-num-of-colors').value;
+                console.log("What is num:" +num);
+                if(!num){
+                    num=1;
+                }
+                let colorDisplay=document.getElementById('color-display');
+                colorDisplay.innerHTML='';
+                for(let i=0;i<num;i++){
+                    const hex = Math.floor(Math.random() * 16777216).toString(16); // Generate a random number up to 0xFFFFFF
+                    var box=document.createElement('div');
+                    
+                    const sixhex=`#${hex.padStart(6,'0')}`;
+                    box.className='rainbow-border-box';
+                    box.style.backgroundColor=sixhex;
+                    colorDisplay.appendChild(box);
+                    
+                }
+                /*const hex = Math.floor(Math.random() * 16777216).toString(16); // Generate a random number up to 0xFFFFFF
+                const box=document.getElementById('rainbow-border-box')
+                const sixhex=`#${hex.padStart(6,'0')}`
+                box.style.backgroundColor=sixhex;*/
+                //return `#${hex.padStart(6, '0')}`; // Ensure the result is always 6 digits
+            }
+             /*function getUserInput(){
+                const hexcode=document.getElementById("")
+            }*/
+            
+        
+            document.addEventListener("DOMContentLoaded", function() {
+              const colorMethod=document.getElementById('color-method');
+              const randomContainer=document.getElementById('random-container');
+              const hexcodeContainer=document.getElementById('hexcode-container');
+              const pickerContainer=document.getElementById('picker-container');
+              const randomButton = document.getElementById('generate-random-color-button');
+              randomButton.addEventListener("click", getRandomColorHEX);
+
+              const pickerButton = document.getElementById('use-color-picker-button');
+              pickerButton.addEventListener("click", updateColorUsingPicker);
+
+              
+
+              colorMethod.addEventListener('change', () => {
+                if (colorMethod.value === 'hexcode') {
+                    hexcodeContainer.style.display = 'block';
+                    pickerContainer.style.display = 'none';
+                    randomContainer.style.display='none';
+                    //updateColor(colorDropdown.value); // Set default dropdown color
+                } else if (colorMethod.value === 'picker') {
+                    hexcodeContainer.style.display = 'none';
+                    pickerContainer.style.display = 'block';
+                    randomContainer.style.display='none';
+                    //updateColor(colorPicker.value); // Set default picked color
+                } else if (colorMethod.value === 'random') {
+                    hexcodeContainer.style.display = 'none';
+                    pickerContainer.style.display='none';
+                    randomContainer.style.display='block';
+
+                    
+                }
+                });
+
+            });
+
+            
+          </script>
+    </body>
+    
+</html>
